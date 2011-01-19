@@ -1,7 +1,9 @@
 
 RTsung.new do
   clients do
-    client 'localhost'
+    host 'localhost', { :use_controller_vm => true, :cpu => 2 } do
+      ip '192.168.1.2'
+    end
   end
 
   servers do
