@@ -22,6 +22,8 @@ RTsung.new do
   end
 
   sessions do
-    session 'users'
+    session 'users' do
+      think 1..5
+    end
   end
 end
