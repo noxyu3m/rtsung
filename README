@@ -1,3 +1,4 @@
+require 'rtsung'
 
 RTsung::XML.new do
   clients do
@@ -12,9 +13,11 @@ RTsung::XML.new do
   end
 
   load do
-    arrivalphase 1 do
-      arrivalrate 10
-    end
+    # first arrival phase (one minute, new user every five seconds)
+    phase 1, :interval, 5, :second
+
+    # second arrival phase (ten minutes, two users per second)
+    phase 2, :rate, 2, 'second', { :duration => 10, :unit => 'minute' }
   end
 
   options do

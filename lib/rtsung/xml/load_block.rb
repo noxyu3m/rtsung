@@ -1,45 +1,33 @@
 module RTsung
   class XML
     class LoadBlock < Block
-      DEFAULT_PHASE_DURATION = 1
-      DEFAULT_PHASE_UNIT = 'minute'
-
-      DEFAULT_USER_UNIT = 'second'
+      DEFAULT_DURATION = 1
+      DEFAULT_UNIT = 'minute'
 
       private
 
-      def arrivalphase(phase, duration = nil, unit = nil, &block)
+      def phase(name, type, value, unit, options = {})
         attrs = {
-          :phase => phase,
-          :duration => duration || DEFAULT_PHASE_DURATION,
-          :unit => unit || DEFAULT_PHASE_UNIT
+          :phase => name,
+          :duration => options[:duration] || DEFAULT_DURATION,
+          :unit => options[:unit] || DEFAULT_UNIT
         }
 
-        if block_given?
-          xml.arrivalphase(attrs) do
-            instance_eval(&block)
+        xml.arrivalphase(attrs) do
+          attrs = {
+            :unit => unit
+          }
+          
+          if type == :rate
+            attrs[:arrivalrate] = value
+          elsif type == :interval
+            attrs[:interarrival] = value
+          else
+            raise
           end
-        else
-          xml.arrivalphase(attrs)
+
+          xml.users(attrs)
         end
-      end
-
-      def interarrival(num, unit = nil)
-        attrs = {
-          :interarrival => num,
-          :unit => unit || DEFAULT_USER_UNIT
-        }
-
-        xml.users(attrs)
-      end
-
-      def arrivalrate(num, unit = nil)
-        attrs = {
-          :arrivalrate => num,
-          :unit => unit || DEFAULT_USER_UNIT
-        }
-
-        xml.users(attrs)
       end
     end
   end
