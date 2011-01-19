@@ -1,5 +1,5 @@
 
-RTsung.new do
+RTsung::XML.new do
   clients do
     host 'localhost', { :use_controller_vm => true, :cpu => 2 } do
       ip '192.168.1.2'
