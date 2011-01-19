@@ -5,9 +5,9 @@ class RTsung
 
     private
 
-    def server(host, options = {})
+    def host(name, options = {})
       attrs = {
-        :host => host,
+        :host => name,
         :port => options[:port] || DEFAULT_PORT,
         :type => options[:type] || DEFAULT_TYPE
       }

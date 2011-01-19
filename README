@@ -7,7 +7,8 @@ RTsung.new do
   end
 
   servers do
-    server 'example.com'
+    host 'example.com'
+    host 'www.example.com', :port => 8080
   end
 
   load do
