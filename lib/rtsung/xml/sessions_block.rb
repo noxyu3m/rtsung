@@ -6,6 +6,9 @@ module RTsung
 
       DEFAULT_THINK_RANDOM = true
 
+      DEFAULT_HTTP_VERSION = '1.1'
+      DEFAULT_HTTP_METHOD = 'GET'
+
       private
 
       def session(name, options = {}, &block)
@@ -21,6 +24,18 @@ module RTsung
           end
         else
           xml.session(attrs)
+        end
+      end
+
+      def request(url, options = {})
+        attrs = {
+          :url => url,
+          :version => options[:version] || DEFAULT_HTTP_VERSION,
+          :method => options[:method] || DEFAULT_HTTP_METHOD
+        }
+        
+        xml.request do
+          xml.http(attrs)
         end
       end
 
