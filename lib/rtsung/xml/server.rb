@@ -1,19 +1,19 @@
 module RTsung
   class XML
-    class ServersBlock < Block
+    class Server
       DEFAULT_PORT = 80
       DEFAULT_TYPE = 'tcp'
 
-      private
-
-      def host(name, options = {})
-        attrs = {
-          :host => name,
+      def initialize host, options = {}
+        @attrs = {
+          :host => host,
           :port => options[:port] || DEFAULT_PORT,
           :type => options[:type] || DEFAULT_TYPE
         }
+      end
 
-        xml.server(attrs)
+      def to_xml xml
+        xml.server @attrs
       end
     end
   end
