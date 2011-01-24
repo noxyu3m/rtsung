@@ -4,7 +4,7 @@ class RTsung
 
     USER_AGENT_PROBABILITY = 100
 
-    def initialize name, options = {}, &block
+    def initialize(name, options = {}, &block)
       @attrs = {
         :name => name,
         :type => options[:type] || TYPE
@@ -12,26 +12,33 @@ class RTsung
 
       @user_agents = []
 
-      instance_eval &block if block_given?
+      instance_eval(&block) if block_given?
     end
 
-    def user_agent name, options = {}
+    def user_agent(name, options = {})
       @user_agents << {
         :name => name,
         :probability => options[:probability] || USER_AGENT_PROBABILITY
       }
     end
 
-    def to_xml xml
+    def name(name, options = {})
+      user_agent(name, options)
+    end
+
+    def to_xml(xml)
       if @user_agents.empty?
         xml.option @attrs
       else
-        xml.option(@attrs) {
+        xml.option(@attrs) do
           @user_agents.each { |u|
-            xml.user_agent({ :probability => u[:probability] }) { xml.text! u[:name] }
+            xml.user_agent({ :probability => u[:probability] }) do
+              xml.text! u[:name]
+            end
           }
-        }
+        end
       end
     end
+
   end
 end

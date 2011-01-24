@@ -50,6 +50,10 @@ class RTsung
     @options << Option.new(name, options, &block)
   end
 
+  def user_agents(&block)
+    @options << Option.new('user_agent', { :type => :ts_http }, &block)
+  end
+
   def session(name, options = {}, &block)
     @sessions << Session.new(name, options, &block)
   end
