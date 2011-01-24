@@ -46,11 +46,11 @@ class RTsung
     @phases << Phase.new(name, duration, unit, options)
   end
 
-  def option name, options = {}, &block
+  def option(name, options = {}, &block)
     @options << Option.new(name, options, &block)
   end
 
-  def session name, options = {}, &block
+  def session(name, options = {}, &block)
     @sessions << Session.new(name, options, &block)
   end
 

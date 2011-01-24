@@ -1,7 +1,7 @@
 require 'rtsung'
 
-rtsung = RTsung::XML.new do
-  client 'localhost', :use_controller_vm => true
+rtsung = RTsung.new do
+  client 'localhost', :vm => true
 
   client 'router', :max_users => 32
 
