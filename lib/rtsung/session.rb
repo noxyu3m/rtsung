@@ -4,9 +4,10 @@ class RTsung
     TYPE = :ts_http
 
     HTTP_VERSION = '1.1'
-    HTTP_METHOD = 'GET'
+    HTTP_METHOD = :GET
 
     THINK_TIME_RANDOM = true
+
 
     def initialize(name, options = {}, &block)
       @attrs = {
@@ -21,13 +22,30 @@ class RTsung
     end
 
     def request(url, options = {})
+      attrs = {
+        :url => url,
+        :version => options[:version] || HTTP_VERSION,
+        :method => options[:method] || HTTP_METHOD
+      }
+
+      if options[:params]
+        params = []
+        options[:params].keys.each { |k| params << "#{k}=#{options[:params][k]}" }
+
+        params = params.join('&amp;')
+
+        if attrs[:method] == :GET
+          attrs[:url] = "#{attrs[:url]}?#{params}"
+        elsif attrs[:method] == :POST
+          attrs[:contents] = params
+        end
+      end
+
+      attrs[:content_type] = options[:content_type] if options[:content_type]
+
       @steps << {
         :type => :request,
-        :attrs => {
-          :url => url,
-          :version => options[:version] || HTTP_VERSION,
-          :method => options[:method] || HTTP_METHOD
-        }
+        :attrs => attrs
       }
     end
 
@@ -48,6 +66,7 @@ class RTsung
         :attrs => attrs
       }
     end
+    alias :think :think_time
 
     def to_xml xml
       if @steps.empty?
