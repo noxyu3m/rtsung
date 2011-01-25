@@ -25,7 +25,11 @@ rtsung = RTsung.new do
 
     think_time 1..5
 
-    request '/signin'
+    request '/signin', :params => { :uniq => true }
+
+    think 5
+
+    request '/signin', :method => :POST, :params => { :email => 'test@example.com', :password => 'ov7Feift' }
   end
 end
 
