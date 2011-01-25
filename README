@@ -22,6 +22,10 @@ rtsung = RTsung.new do
 
   session :search do
     request '/'
+
+    think_time 1..5
+
+    request '/signin'
   end
 end
 
